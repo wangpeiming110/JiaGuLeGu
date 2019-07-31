@@ -1,0 +1,109 @@
+apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+apply plugin: 'com.zf.plugins.GitCommand'
+apply plugin: 'com.jfrog.bintray'
+
+def bintrayConfigFile = new File("D:\\Users\\Lenovo\\Desktop\\APP\\buildScript\\bintrayConfig.gradle")
+if (bintrayConfigFile.exists()) {
+    apply from: bintrayConfigFile.absolutePath
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+}
+
+
+
+def isSnapshot = false
+
+version '1.0.1'
+
+if (isSnapshot) {
+    version (version + "-SNAPSHOT")
+}
+
+
+group 'com.zf.plugins'
+
+def gitUrl = "https://github.com/903600017/JiaGuLeGu.git"
+def siteUrl = gitUrl
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId 'JiaGuLeGu'
+            artifact sourcesJar {
+                classifier "sources"
+            }
+
+            pom {
+                name = "JiaGuLeGu"
+                description = "APK Reinforcement Plug-in"
+                url = siteUrl
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "https://raw.githubusercontent.com/903600017/JiaGuLeGu/master/LICENSE"
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = "zf"
+                        name = "zf"
+                        email = "1287253110@qq.com"
+                    }
+                }
+
+                organization {
+                    name = "zf"
+                    url = "https://github.com/903600017"
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url = uri('E:\\mvn-repo\\plugins\\repo')
+        }
+    }
+}
+
+
+bintray {
+    user = BINTRAY_USER
+    key = BINTRAY_API_KEY
+    publications 'mavenJava'
+    pkg {
+        repo = 'maven'
+        name = 'JiaGuLeGu'
+        userOrg = 'zf'
+        licenses = ['Apache-2.0']
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+    }
+}
+
+
+////设置maven deployer
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            //设置插件的GAV参数
+//            pom.groupId = 'com.zf.plugins'
+//            pom.artifactId = 'JiaGuLeGu'
+//            pom.version = version
+//            //文件发布到下面目录
+//            repository(url: uri('E:\\mvn-repo\\plugins\\repo'))
+//        }
+//    }
+//}
