@@ -47,7 +47,7 @@ jiaGuLeGuConfig {
     items {
         hauyi {
             //需要加固的apk
-            uploadPath "https://raw.githubusercontent.com/Rakatak/TestingLiquidRakatak/3bef9538000c1e04f7d4c52878413304ad116d15/node_modules/appium/build/settings_apk/settings_apk-debug.apk"
+            uploadPath new File("E:\\XXX\\ms-shield.jar").absolutePath
             //加固后的apk输出文件夹
             downloadPath new File("E:\\XXX\\out\\").absolutePath
         }
