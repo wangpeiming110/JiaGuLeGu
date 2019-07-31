@@ -11,8 +11,7 @@ JiaGuLeGu 为apk提供快速加固，解放双手，实现自动化流程。解�
 
 ### 下载腾讯乐固 jar
 
-腾讯乐固文档
-https://cloud.tencent.com/developer/article/1193406
+[腾讯乐固文档](https://cloud.tencent.com/developer/article/1193406)
 
 
 ### Gradle插件使用方式
@@ -102,6 +101,10 @@ jiaGuLeGuConfig {
     }
 }
 ```
+
+**配置参数详细说明**
+
+[腾讯乐固文档](https://cloud.tencent.com/developer/article/1193406)
 	
 **生成apk签名包：**
 
@@ -113,7 +116,7 @@ jiaGuLeGuConfig {
 
 
 ## Q&A
-- [输出乱码](https://github.com/903600017/JiaGuLeGu/wiki/Terminal-%E8%BE%93%E5%87%BA%E4%B9%B1%E7%A0%81%EF%BC%9F)？
+- [输出乱码](https://github.com/903600017/JiaGuLeGu/wiki/Terminal-%E8%BE%93%E5%87%BA%E4%B9%B1%E7%A0%81)？
 
 ## 技术支持
 
