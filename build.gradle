@@ -35,6 +35,13 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 }
 
 
+gitConfig {
+    versionCode 1
+    versionName version
+    changedLogFilePath file("config/log.txt").absolutePath
+    workDirPath project.projectDir.absolutePath
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
