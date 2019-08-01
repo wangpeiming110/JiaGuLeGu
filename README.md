@@ -23,7 +23,7 @@ JiaGuLeGu 为apk提供快速加固，解放双手，实现自动化流程。解�
 ```groovy
 buildscript {
     dependencies {
-        classpath 'com.zf.plugins:JiaGuLeGu:1.0.1'
+        classpath 'com.zf.plugins:JiaGuLeGu:1.0.2'
     }
 }
 ```
