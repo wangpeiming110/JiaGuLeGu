@@ -46,19 +46,30 @@ public class JiaGuLeGuTask extends JiaGuLeGuBaseTask {
             jiaGuLeGuInfo.isOpenOutputDir = config.isOpenOutputDir;
         }
 
+
         def uploadType = jiaGuLeGuInfo.uploadType.trim()
         if (uploadType != JiaGuLeGuConfig.UPLOAD_DOWNLOAD_TYPE_FILE && uploadType != JiaGuLeGuConfig.UPLOAD_DOWNLOAD_TYPE_URL) {
             throw new GradleException("uploadType must be a file or url character")
         }
 
+
+        if (!jiaGuLeGuInfo.uploadPath) {
+            throw new GradleException("Path to be augmented apk file, mandatory parameter")
+        }
+
+
         if (uploadType == JiaGuLeGuConfig.UPLOAD_DOWNLOAD_TYPE_FILE) {
             File inputApkFile = new File(jiaGuLeGuInfo.uploadPath)
             if (!inputApkFile.exists()) {
-                throw new GradleException("Pending reinforcement apk does not exist.\n ${jiaGuLeGuInfo.uploadPath}")
+                throw new GradleException("When uploadType is url, uploadPath must be the file path.\n ${jiaGuLeGuInfo.uploadPath}")
             }
 
             if (!inputApkFile.isFile()) {
                 throw new GradleException("Pending reinforcement apk does not exist.\n ${jiaGuLeGuInfo.uploadPath}")
+            }
+        } else {
+            if (!(jiaGuLeGuInfo.uploadPath.startsWith("http") || jiaGuLeGuInfo.uploadPath.startsWith("http"))) {
+                throw new GradleException("When uploadType is file, uploadPath must be url.\n ${jiaGuLeGuInfo.uploadPath}")
             }
         }
 
@@ -67,9 +78,8 @@ public class JiaGuLeGuTask extends JiaGuLeGuBaseTask {
             throw new GradleException("downloadType must be a file or url character")
         }
 
-
         if (jiaGuLeGuInfo.downloadPath == null) {
-            throw new GradleException("downloadPath cannot be empty")
+            throw new GradleException("The path of APK after reinforcement, the necessary parameters")
         } else {
             File outputApkDirFile = new File(jiaGuLeGuInfo.downloadPath)
             if (!outputApkDirFile.exists()) {

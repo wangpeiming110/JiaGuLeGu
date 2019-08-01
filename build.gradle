@@ -17,7 +17,8 @@ dependencies {
 
 def isSnapshot = false
 
-version '1.0.1'
+version '1.0.2'
+def _versionCode= 2
 
 if (isSnapshot) {
     version (version + "-SNAPSHOT")
@@ -36,7 +37,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 
 gitConfig {
-    versionCode 1
+    versionCode _versionCode
     versionName version
     changedLogFilePath file("config/log.txt").absolutePath
     workDirPath project.projectDir.absolutePath
@@ -66,7 +67,7 @@ publishing {
                     developer {
                         id = "zf"
                         name = "zf"
-                        email = "1287253110@qq.com"
+                        email = "903600017@qq.com"
                     }
                 }
 

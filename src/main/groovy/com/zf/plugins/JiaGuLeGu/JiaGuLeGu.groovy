@@ -4,12 +4,16 @@ package com.zf.plugins.JiaGuLeGu
 import org.gradle.api.GradleException
 import org.gradle.api.logging.Logger
 
+import java.text.DecimalFormat
+
 public class JiaGuLeGu {
 
     Logger logger
     public File jiaGuJarDir
     public String jiaGuJarName
     JiaGuLeGuInfo jiaGuLeGuInfo
+
+    DecimalFormat df = new DecimalFormat("0.00");
 
     JiaGuLeGu(File jiaGuJarFile, Logger logger) {
         this.jiaGuJarDir = jiaGuJarFile.getParentFile()
@@ -32,7 +36,7 @@ public class JiaGuLeGu {
         if (jiaGuLeGuInfo.uploadType == JiaGuLeGuConfig.UPLOAD_DOWNLOAD_TYPE_URL) {
 
             File apkFile = Utils.downLoad(jiaGuLeGuInfo.proxy, jiaGuLeGuInfo.uploadPath, new File(jiaGuLeGuInfo.downloadPath), { def size ->
-                logger.quiet("output > 已下下载大小 ${size / 1024 / 8}Mb")
+                logger.quiet("output > 已下下载大小 ${df.format(size / 1024 / 8)}MB")
             })
 
             if (!apkFile.exists()) {
@@ -52,7 +56,7 @@ public class JiaGuLeGu {
                 jiaGuLeGuInfo.downloadType,
                 md5);
 
-        openDir(outputApkDirPath)
+        openDir(jiaGuLeGuInfo.downloadType)
 
     }
 
@@ -93,7 +97,7 @@ public class JiaGuLeGu {
 
     void openDir(String path) {
 
-        if (jiaGuLeGuInfo.isOpenOutputDir) {
+        if (!jiaGuLeGuInfo.isOpenOutputDir) {
             logger.info("Do not open the output folder.")
             return
         }
@@ -103,7 +107,7 @@ public class JiaGuLeGu {
             return
         }
 
-        if (jiaGuLeGuInfo.downloadType == JiaGuLeGuConfig.UPLOAD_DOWNLOAD_TYPE_FILE) {
+        if (jiaGuLeGuInfo.downloadType == JiaGuLeGuConfig.UPLOAD_DOWNLOAD_TYPE_URL) {
             logger.warn("The downloadType value URL does not support opening the output folder.")
             return
         }

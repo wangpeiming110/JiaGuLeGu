@@ -75,7 +75,14 @@ public class Utils {
                     throw new GradleException("Proxy address error。addr=${proxyAddr}")
                 }
             } else {
-                return downLoadHttpInternal(null, url, saveDir, closure)
+
+                if (url.startsWith("http")) {
+                    return downLoadHttpInternal(null, url, saveDir, closure)
+                } else if (url.startsWith("https")) {
+                    return downLoadHttpsInternal(null, url, saveDir, closure)
+                }else{
+                    throw new GradleException("uploadPath address error。uploadPath=${url}")
+                }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -99,11 +106,17 @@ public class Utils {
             SSLContext sc = SSLContext.getInstance("SSL");
 
 
-            TrustManager[] trustManagers =[new TrustAnyTrustManager()]
+            TrustManager[] trustManagers = [new TrustAnyTrustManager()]
 
             sc.init(null, trustManagers, new java.security.SecureRandom());
 
-            HttpsURLConnection urlConnection = (HttpsURLConnection) new URL(url).openConnection(proxy);
+            HttpsURLConnection urlConnection = null;
+            if (proxy) {
+                urlConnection = (HttpsURLConnection) new URL(url).openConnection(proxy);
+            } else {
+                urlConnection = (HttpsURLConnection) new URL(url).openConnection();
+            }
+
             urlConnection.setSSLSocketFactory(sc.getSocketFactory());
             urlConnection.setHostnameVerifier(new TrustAnyHostnameVerifier());
             stream = urlConnection.getInputStream();
@@ -229,7 +242,7 @@ public class Utils {
         }
 
         public X509Certificate[] getAcceptedIssuers() {
-            X509Certificate[] x509Certificates =[];
+            X509Certificate[] x509Certificates = [];
             return x509Certificates;
         }
     }
